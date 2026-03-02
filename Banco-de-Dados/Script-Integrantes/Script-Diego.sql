@@ -12,14 +12,12 @@ CREATE TABLE obra(
     
     CREATE TABLE zonaObra(
     idZona INT PRIMARY KEY AUTO_INCREMENT,
-    idObra INT, FOREIGN KEY (idObra) REFERENCES obra(idObra),
     nomeZona VARCHAR (15) NOT NULL CONSTRAINT chZona check (nomeZona IN ('zona sul', 'zona norte', 'zona oeste', 'zona leste')),
     limiteUmidade VARCHAR (4)
     );
     
     CREATE TABLE sensor(
     idSensor INT PRIMARY KEY AUTO_INCREMENT,
-    idZona INT, FOREIGN KEY (idZona) REFERENCES zonaObra (idZona),
     modelo VARCHAR (45),
     stats VARCHAR (10) CONSTRAINT chStats CHECK (stats IN ('Ativo', 'Offline', 'Manutenção')),
     dataInstalacao DATETIME
@@ -27,14 +25,12 @@ CREATE TABLE obra(
     
     CREATE TABLE dados(
     idDados INT PRIMARY KEY AUTO_INCREMENT,
-    idSensor INT, FOREIGN KEY (idSensor) REFERENCES sensor (idSensor),
     tempo DATETIME,
     nivelUmidade DECIMAL (4,2) CONSTRAINT chNivel CHECK (nivelUmidade >= 0 AND nivelUmidade <= 100)
     );
     
     CREATE TABLE avisos(
     idAlerta INT PRIMARY KEY AUTO_INCREMENT,
-    idSensor INT, FOREIGN KEY (idSensor) REFERENCES sensor (idSensor),
     horaAlerta DATETIME,
     nivelUrgencia VARCHAR (25) CONSTRAINT chUrgencia CHECK (nivelUrgencia IN ('Leve', 'Moderado', 'Severo')),
     statusAviso VARCHAR (25) CONSTRAINT chAviso CHECK (statusAviso IN ('Emitido', 'Andamento', 'Resolvido'))
