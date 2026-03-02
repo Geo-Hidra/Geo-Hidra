@@ -1,2 +1,3 @@
 # Geo-Hidra
-Sistema IoT para monitoramento de umidade do solo em tempo real, focado em segurança geológica e precisão em fundações de obras civis.
+
+Monitoramento inteligente de solo via sensores capacitivos e dashboard em tempo real para prevenir desmoronamentos e otimizar processos de concretagem em canteiros de obras.
