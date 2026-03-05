@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Calculadora de ROI - Monitoramento de Solo</title>
+    <!-- Return on Investment, que em português significa Retorno sobre o Investimento -->
+</head>
+<body>
+
+    <h2>Simulador de Prevenção de Perdas</h2>
+
+    Valor da Obra: <input type="number" id="obra"><br><br>
+    Custo do Sistema: <input type="number" id="sistema"><br><br>
+
+    <button onclick="calcular()">Calcular</button>
+
+    <p id="saida"></p>
+
+    <script>
+        function calcular() {
+            let vObra = Number(obra.value);
+            let vSist = Number(sistema.value);
+            
+            let prejuizo = vObra * 0.225;
+            let economia = prejuizo - vSist;
+            let peso = (vSist / vObra) * 100;
+
+            saida.innerHTML = `
+                Risco de Prejuízo: R$ ${prejuizo.toFixed(2)} <br>
+                Economia Real: R$ ${economia.toFixed(2)} <br>
+                Peso no Orçamento: ${peso.toFixed(1)}%
+            `;
+        }
+    </script>
+
+</body>
+</html>
