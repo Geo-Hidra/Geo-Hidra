@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <h1>Simulador Financeiro</h1> <br>
+        Informe o custo da obra que deseja fazer: <input type="text" id="input_valorObra"> <br> <br>
+        Informe o tamanho da área que sera feita a obra (em m²): <input type="text" id="input_areaObra"> <br><br>
+        Informe quantos meses essa obra demorará para ser construída: <input type="text" id="input_tempo"> <br> <br>
+
+        <button onclick="calcular()">Calcular</button> <br> <br>
+    </div>
+    <div id="div_msg"></div>
+</body>
+</html>
+<script>
+    function calcular(){
+        let valorObra = Number(input_valorObra.value)
+        let areaObra = Number (input_areaObra.value)
+        let tempo = Number(input_tempo.value)
+        let aumentoPreco = valorObra * 0.25
+        let precoAumentado = valorObra * 1.25
+        let qtd = (areaObra / 100) * 5 // conta para descobrir a quantidade, pois a cada 100m² será 5 sensores
+
+        let parteInteira = qtd.toFixed(0) // transfomar em número inteiro
+        let qtdSensores
+
+        if (parteInteira < qtd) {
+        // Verifica se a conta para descobrir a quantidade de sensores é maior que o arredondamento dele, se for, somará 1 para ficar certo, se não for, mantém o número.
+        qtdSensores = Number(parteInteira) + 1;
+        } else {
+        qtdSensores = parteInteira;
+        }
+
+        let valorInstalacao = qtdSensores * 2500
+        let valorMensalidade = qtdSensores * 400
+        let valorMensalidadeTotal = valorMensalidade * tempo
+        let valorTotal = valorMensalidadeTotal + valorInstalacao
+        let porcentagemValor = valorTotal / valorObra * 100
+        let diferenca = aumentoPreco - valorTotal
+
+        div_msg.innerHTML = `Baseado em médias, aproximadamente uma obra tem aumento de custo em 25% quando ocorre problemas envolvendo a umidade do solo, sua obra custará normalmente R$${valorObra}, caso aconteça algum desses problemas, sua obra poderá aumentar para R$${precoAumentado}, aumentando em R$${aumentoPreco}. Com a nossa proposta, você não precisa se preocupar com isso.<br> <br>
+        Como sua obra terá ${areaObra}m², usamos um metodo que cobrimos cada 100m² com 5 sensores, então irá precisar usar ${qtdSensores} sensores para cobrir sua área completamente<br>
+        Nosso preço é absurdamente mais baixo que o preço do prejuízo que terá caso a obra tenha problemas, sendo na instalação R$2500 por sensor com software incluído e na mensalidade para sustentação de R$ 400 por sensor.<br>
+        Ou seja, na sua obra será em instalação R$${valorInstalacao} e por mensalidade R$${valorMensalidade}, como será uma obra com duração de ${tempo} meses, somando as mensalidades o preço seria R$${valorMensalidadeTotal}. <br>
+        Totalizando tudo por apenas R$${valorTotal}.<br> <br>
+        
+        Ou seja, você contratando nossos serviços gastará ${porcentagemValor.toFixed(2)}% a mais do que a obra total, sendo ${valorTotal}, ao invés de pagar 25% da obra, que totalizaria em ${aumentoPreco}. <br>
+        Tendo que custear com R$${diferenca} a menos com nossos serviços.`
+
+    }
+</script>
