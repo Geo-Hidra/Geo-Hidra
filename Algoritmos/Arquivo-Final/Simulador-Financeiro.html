@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>SimuladorFinanceiro</title>
 </head>
 <body>
-    <div>
+    <div style="text-align: center;"> <!-- "text-align" é uma propriedade de estilo que define o alinhamento do conteúdo; "center" faz os elementos dentro da div ficarem centralizados horizontalmente-->
         <h1>Simulador Financeiro</h1> <br>
-        Informe o custo da obra que deseja fazer: <input type="text" id="input_valorObra"> <br> <br>
-        Informe o tamanho da área que sera feita a obra (em m²): <input type="text" id="input_areaObra"> <br><br>
-        Informe quantos meses essa obra demorará para ser construída: <input type="text" id="input_tempo"> <br> <br>
+        Informe o custo da obra que deseja fazer: <br> <input type="text" id="input_valorObra"> <br> <br>
+        Informe o tamanho da área que sera feita a obra (em m²):<br> <input type="text" id="input_areaObra"> <br><br>
+        Informe quantos meses essa obra demorará para ser construída:<br> <input type="text" id="input_tempo"> <br> <br>
 
         <button onclick="calcular()">Calcular</button> <br> <br>
     </div>
-    <div id="div_msg"></div>
+    <div id="div_msg" style="text-align: center;"></div>
 </body>
 </html>
 <script>
@@ -43,14 +43,13 @@
         let porcentagemValor = valorTotal / valorObra * 100
         let diferenca = aumentoPreco - valorTotal
 
-        div_msg.innerHTML = `Baseado em médias, aproximadamente uma obra tem aumento de custo em 25% quando ocorre problemas envolvendo a umidade do solo, sua obra custará normalmente R$${valorObra}, caso aconteça algum desses problemas, sua obra poderá aumentar para R$${precoAumentado}, aumentando em R$${aumentoPreco}. Com a nossa proposta, você não precisa se preocupar com isso.<br> <br>
-        Como sua obra terá ${areaObra}m², usamos um metodo que cobrimos cada 100m² com 5 sensores, então irá precisar usar ${qtdSensores} sensores para cobrir sua área completamente<br>
-        Nosso preço é absurdamente mais baixo que o preço do prejuízo que terá caso a obra tenha problemas, sendo na instalação R$2500 por sensor com software incluído e na mensalidade para sustentação de R$ 400 por sensor.<br>
-        Ou seja, na sua obra será em instalação R$${valorInstalacao} e por mensalidade R$${valorMensalidade}, como será uma obra com duração de ${tempo} meses, somando as mensalidades o preço seria R$${valorMensalidadeTotal}. <br>
-        Totalizando tudo por apenas R$${valorTotal}.<br> <br>
-        
-        Ou seja, você contratando nossos serviços gastará ${porcentagemValor.toFixed(2)}% a mais do que a obra total, sendo ${valorTotal}, ao invés de pagar 25% da obra, que totalizaria em ${aumentoPreco}. <br>
-        Tendo que custear com R$${diferenca} a menos com nossos serviços.`
+        div_msg.innerHTML += `
+            Sua obra custa R$${valorObra}. Problemas de umidade podem gerar prejuízo de <b style="color: red;">R$${aumentoPreco}</b>, elevando o custo para <b style="color: red;">R$${precoAumentado}</b><br>
+            Para uma área de ${areaObra}m² serão necessários ${qtdSensores} sensores.<br>
+            Instalação(R$2500 por sensor): R$${valorInstalacao}. Mensalidade total em ${tempo} meses(R$400 por sensor): R$${valorMensalidadeTotal}.<br>
+            Custo total do serviço: R$${valorTotal} (${porcentagemValor.toFixed(2)}% do valor da obra).<br>
+            Economia em relação ao possível prejuízo: <b style="color: green;">R$${diferenca}</b>`
 
-    }
+
+}
 </script>
