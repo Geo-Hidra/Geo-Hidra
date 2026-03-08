@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador Financeiro</title>
+</head>
+<body>
+
+    <h2>Simulador Financeiro - Sensores de Umidade do Solo</h2>
+
+    Insira o custo da sua obra: <input type="text" id="input_custo"> <br><br>
+
+    Quantidade de sensores utilizados na obra: <input type="text" id="input_sensores"> <br><br>
+
+    <button onclick="calcular()">Calcular impacto financeiro</button> <br><br>
+
+    <div id="div_mensagem"></div>
+
+</body>
+</html>
+
+<script>
+    function calcular(){
+
+        let custoObra = Number(input_custo.value)
+        let qtdSensores = Number(input_sensores.value)
+
+        let precoSensor = 800
+        let manutencaoSensor = 500
+
+        let custoSensores = qtdSensores * precoSensor
+        let custoManutencao = qtdSensores * manutencaoSensor
+
+        let custoSistema = custoSensores + custoManutencao
+
+        let prejuizoSemSensor = custoObra * 0.30
+
+        let economia = prejuizoSemSensor - custoSistema
+
+        div_mensagem.innerHTML = `
+        Sem sensores de monitoramento, problemas de umidade no solo podem gerar um prejuízo de aproximadamente 
+        <b>30% do valor da obra</b>.<br><br>
+
+        Prejuízo estimado sem sensores: <b>R$ ${prejuizoSemSensor.toFixed(2)}</b>.<br><br>
+
+        Utilizando <b>${qtdSensores}</b> sensores:<br>
+        Custo de instalação dos sensores: <b>R$ ${custoSensores.toFixed(2)}</b><br>
+        Custo estimado de manutenção: <b>R$ ${custoManutencao.toFixed(2)}</b><br><br>
+
+        Custo total do sistema de monitoramento: <b>R$ ${custoSistema.toFixed(2)}</b><br><br>
+
+        Economia estimada ao utilizar sensores: <b>R$ ${economia.toFixed(2)}</b>.
+        `
+    }
+</script>
