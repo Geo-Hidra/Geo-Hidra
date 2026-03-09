@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de economia</title>
+</head>
+
+<body>
+<div style="text-align: center;">
+    <p>Calculadora de economia</p>
+    Insira o valor da obra <br> <input type="text" id="ipt_valor"> <br> <br>
+    Insira a área da obra em m2 <br> <input type="text" id="ipt_area"> <br> <br>
+    Insira a duração da obra <br> <input type="text" id="ipt_duracao"> <br> <br>
+    <button onclick="verCalculo()">Enviar</button>
+</div>
+
+
+    <div id="div_mensagem" style="text-align: center;"></div>
+
+</body>
+
+</html>
+
+<script>
+function verCalculo() {
+    let valor = Number(ipt_valor.value)
+    let area = Number(ipt_area.value)
+    let duracao = Number(ipt_duracao.value)
+    let prejuizo = valor * 0.25
+    let obraPrejuizo = valor + prejuizo
+    let qntdSensores = (area / 100) * 5
+    let custoInst = qntdSensores * 2500
+    let mensalidade = (400 * qntdSensores) * duracao
+    let total = custoInst + mensalidade
+    let economia = obraPrejuizo - total
+
+    div_mensagem.innerHTML = `A obra irá custar R$${valor}. Se houverem problemas de umidade o prejuízo será de <b style="color: red;">R$${prejuizo}</b>, tornando o valor total R$${obraPrejuizo}. <br>
+    Em uma área de ${area}m² serão utilizados ${qntdSensores} sensores. <br>
+    Com um valor de R$2500 por sensor o custo da instalação será de R$${custoInst} e a mensalidade será de R$${mensalidade}, no período de ${duracao} meses. <br>
+    O serviço custará R$${total}. <br>
+    Contratando a GeoHidra, a economia será de  <b style="color: green;">R$${economia}</b>.`
+
+ }
+
+</script>
