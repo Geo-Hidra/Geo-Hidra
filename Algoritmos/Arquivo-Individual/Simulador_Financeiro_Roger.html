@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Simulador Financeiro - Sensor de Umidade de Solo - GeoHidra</h2>
+
+  Custo da Obra (R$):
+  <input type="text" id='ipt_custoObra'><br><br>
+
+  Custo do Sistema (R$):
+  <input type="text" id='ipt_custoSistema'><br><br>
+
+  <button onclick="calcular()">Calcular</button>
+
+  <div id="div_mensagem"></div>
+</body>
+</html>
+  <script>
+    let percentualRisco = 0.30;
+
+    function calcular() {
+     
+      let custoObra = Number(ipt_custoObra.value);
+      let custoSistema = Number(ipt_custoSistema.value);
+
+      let prejuizoPotencial = custoObra * percentualRisco;
+      let economiaPotencial = prejuizoPotencial - custoSistema;
+
+        if (economiaPotencial > 0) {
+          div_mensagem.innerHTML =
+            `<br>Investir no sistema é vantajoso!<br><br>
+            Prejuízo potencial sem monitoramento: R$${prejuizoPotencial.toFixed(2)}<br><br> 
+            Custo do sistema: R$${custoSistema.toFixed(2)}<br><br>
+            Economia estimada: R$${economiaPotencial.toFixed(2)}`;
+        }
+    }
+  </script>
