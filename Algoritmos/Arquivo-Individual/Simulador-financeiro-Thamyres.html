@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculadora de Economia com Sensor de Umidade</title>
+    <style>body{
+        background-color: rgb(166, 229, 240);
+        margin: 0;
+            height: 80vh;                    /* Altura total da tela visível */
+            display: flex;                    /* Ativa Flexbox */
+            justify-content: center;          /* Centraliza horizontalmente */
+            align-items: center;
+    }
+    .principal{
+        padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+    }
+    </style>
+</head>
+<body>
+    <div id="principal"><h1>Calculadora: Prejuízo vs Economia com Sensor de Umidade do Solo</h1>
+        <p>Projeto: Monitoramento com Arduino para reduzir perdas em obras por problemas no solo.</p>
+
+        <label for="valorObra">Valor total da obra (em R$):</label>
+        <input type="number" id="valorObra" min="100000" >
+
+        <label for="valorSensor">Valor lido pelo sensor (0 a 1023):</label>
+        <input type="number" id="valorSensor" min="0" max="1023" >
+
+        <button onclick="calcular()">Calcular Prejuízo e Economia</button>
+
+        <div id="resultado"></div>
+    </div>
+<script>
+    function calcular() {
+        let valorObra = Number(document.getElementById("valorObra").value);
+        let valorSensor = Number(document.getElementById("valorSensor").value);
+
+        if (valorObra < 100000) {
+            alert("Digite um valor válido da obra (mínimo R$ 100.000)!");
+            return;
+        }
+
+        // CALIBRAÇÃO SENSOR
+
+        let soloSeco = 1023;
+        let soloUmido = 200;
+        let umidade = ((soloSeco - valorSensor) / (soloSeco - soloUmido)) * 100;
+        umidade = Math.max(0, Math.min(100, umidade)).toFixed(1);
+
+        // FAIXA IDEAL
+
+        let faixaMin = 12;
+        let faixaMax = 22;
+
+        // DECIDE RISCO E % DE PREJUIZO POTENCIAL (5-20%)
+
+        let percentPrejuizo = 0;
+        let risco = "";
+        let classe = "";
+
+        if (umidade >= faixaMin && umidade <= faixaMax) { // O && é usado como  um AND entao se umidade for igual ou maior que a faixa minima E se umidade for igual ou menor a feixa maxima
+            risco = "Baixo risco - solo em condições ideais.";
+            percentPrejuizo = 2; 
+        } else if ((umidade >= 5 && umidade < faixaMin) || (umidade > faixaMax && umidade <= 35)) {
+            risco = "Risco médio - pode causar retrabalho ou atrasos moderados.";
+            percentPrejuizo = 8;
+        } else {
+            risco = "ALTO risco - solo crítico (seco/encharcado)! Pode gerar grandes prejuízos.";
+            percentPrejuizo = 15;
+            alert("ATENÇÃO! Condição crítica - prejuízo alto possível sem monitoramento!");
+        }
+
+        // CALCULOS
+
+        let prejuizoSemSensor = (valorObra * percentPrejuizo / 100);
+        let reducaoComSensor = 0.80;  // 80% de redução (ajuste se quiser)
+        let economiaComSensor = prejuizoSemSensor * reducaoComSensor;
+        let prejuizoComSensor = prejuizoSemSensor - economiaComSensor;
+
+        // FFORMATAR EM VALOR
+        let formatar = (num) => num.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+        // RESULTADO
+        let texto = `
+            <h2>Resultados para obra de ${formatar(valorObra)}</h2>
+            Umidade calculada: <strong>${umidade}%</strong><br><br>
+            ${risco}<br><br>
+            <hr><br>
+            Prejuízo potencial sem o sensor: ${formatar(prejuizoSemSensor)}<br>
+            (equivalente a ${percentPrejuizo}% do valor total da obra, por atrasos/retrabalho no solo)<br><br>
+            Economia possível com o nosso sensor: ${formatar(economiaComSensor)}<br>
+            (reduzindo ~${reducaoComSensor * 100}% dos problemas detectados cedo)<br><br>
+            Prejuízo restante estimado com sensor: ${formatar(prejuizoComSensor)}<br><br>
+            <strong>Benefício líquido:</strong> Seu sensor pode economizar até ${formatar(economiaComSensor)} nesta obra!<br><br>
+            <small>* Estimativas baseadas em estudos do setor (ex: médias de 6-21% de estouro em obras brasileiras). Ajuste % conforme dados reais.</small>
+        `;
+
+        document.getElementById("resultado").innerHTML = texto;
+    }
+</script>
+
+</body>
+</html>
