@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    Digite o preço da obra: <input type="text" id="inp_preco">
+    Digite a área da obra (m²) <input type="text" id="inp_area">
+    <button onclick="calcular()">Calcular</button>
+    <div id="div_mensagem"></div>
+</body>
+</html>
+<script>
+    function calcular() {
+        let preco = Number(inp_preco.value)
+        let area = Number(inp_area.value)
+        let qtdSensores = (area/100) * 5
+        let prejuizo = area * 250
+        let custoAntigo = preco + prejuizo
+        let custoSensores = qtdSensores * 2500 
+        let custoNovo = preco + custoSensores
+        let economia = custoAntigo - custoNovo
+        div_mensagem.innerHTML = `Com o preço da obra sendo de R$${preco} e a aréa de ${area}m² <br>o custo causado pelo
+        problema sem a nossa solução seria R$${custoAntigo}, <br>assionando nossos servicos o valor da obra mais o nosso monitoramento seria de R$${custoNovo}, <br>
+        tendo uma economia de R$${economia}`
+    }
+</script>
